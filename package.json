@@ -1,0 +1,27 @@
+{
+  "name": "db_food",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/start.js"
+  },
+  "author": "Camilo Lopez",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.3.4",
+    "connect-flash": "^0.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "nodemon": "^2.0.21",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.10.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.29.3",
+    "uuid": "^9.0.0"
+  }
+}
