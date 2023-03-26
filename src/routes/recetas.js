@@ -26,11 +26,15 @@ RouterRecetas.get("/getDataFilter", async (req, res) => {
     }
 });
 
+RouterRecetas.get("/tomar", (req, res) => {
+    console.log("mama")
+    res.status(200).json({ data: "bien" })
+});
+
 RouterRecetas.get("/:idRecipe", async (req, res) => {
     const { idRecipe } = req.params;
     try {
         const dataSummary = await getByIdRecipe(idRecipe);
-
         if (dataSummary.error) throw new Error(dataSummary.error);
 
         res.status(200).json(dataSummary);
@@ -64,6 +68,8 @@ RouterRecetas.post("/", async (req, res) => {
     } catch (error) {
         res.status(404).send(error.message);
     }
-})
+});
+
+
 
 module.exports = { RouterRecetas };
