@@ -21,7 +21,7 @@ RouterDietas.get("/getAllDiets", async (req, res) => {
 
         res.status(200).send(data);
     } catch (error) {
-        
+        res.status(404).send(error.message)
     }
 } )
 

@@ -58,9 +58,9 @@ RouterRecetas.get("/", async (req, res) => {
 });
 
 RouterRecetas.post("/", async (req, res) => {
-    const { title, image, summary, healthScore, analyzedInstructions, dietas } = req.body;
+    const { title, image, summary, healthScore, analyzedInstructions, diets } = req.body;
     try {
-        const data = await createRecipe(title, image, summary, healthScore, analyzedInstructions, dietas);
+        const data = await createRecipe(title, image, summary, healthScore, analyzedInstructions, diets);
 
         if (data.error) throw new Error(data.error);
 

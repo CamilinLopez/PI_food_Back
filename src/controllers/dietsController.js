@@ -34,6 +34,7 @@ const getDiets = async () => {
 
 const getAllDiets = async () => {
     try {
+        await getDiets();
         let data = (await diets.findAll({
             attributes: ["name"],
             raw: true

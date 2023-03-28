@@ -1,4 +1,4 @@
-const { Sequelize, or } = require("sequelize");
+const { Sequelize } = require("sequelize");
 const axios = require("axios");
 require("dotenv").config();
 const { API_KEY } = process.env;
@@ -91,8 +91,9 @@ const getByIdRecipe = async (idRecipe) => {
         if (!idRecipe) throw new Error("Agrege un id");
 
         const dataJoin = await joinData();
-        const data = dataJoin.find(item => item.id === parseInt(idRecipe));
+        const data = dataJoin.find(item => parseInt(item.id)  === parseInt(idRecipe));
 
+         if(data.from === "db") data.analyzedInstructions = JSON.parse(data.analyzedInstructions)
         if (!data) throw new Error("No existe esta receta");
 
         return data;
@@ -109,7 +110,7 @@ const getByNameRecipe = async (name) => {
 
         const data = dataJoin.filter(item => item.title.toLowerCase().includes(name.toLowerCase()));
 
-        if (!data.length) return [{status: "No found", id:1}]; //throw new Error(`No hay recetas con el nombre ${name}`);
+        if (!data.length) return [{ status: "No found", id: 1 }]; //throw new Error(`No hay recetas con el nombre ${name}`);
 
         return data;
     } catch (error) {
@@ -120,6 +121,8 @@ const getByNameRecipe = async (name) => {
 const createRecipe = async (title, image, summary, healthScore, analyzedInstructions, dietas) => {
     try {
         if (!title || !image || !summary || !healthScore || !analyzedInstructions || !dietas) throw new Error("Faltan datos para crear la receta");
+
+        analyzedInstructions = JSON.stringify(analyzedInstructions);
 
         const [nameR, created] = await Recetas.findOrCreate({
             where: { title },
@@ -134,12 +137,12 @@ const createRecipe = async (title, image, summary, healthScore, analyzedInstruct
         await nameR.addDiets(getDiets);
 
         if (!getDiets.length) throw new Error(`Se ha creado la receta ${title} pero no se ha relacionado por que no se ha encontrado la dieta ${dietas}`)
-
         return `La receta ${title} se ha creado en la base de datos food`;
     } catch (error) {
         return { error: error.message };
     }
 }
+
 
 const getDataFilter = async (dataFuete, typeDiet, ordenarByScore) => {
 

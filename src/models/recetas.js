@@ -25,7 +25,7 @@ module.exports = (database) => {
             defaultValue: 0
         },
         analyzedInstructions: {
-            type: DataTypes.STRING,
+            type: DataTypes.JSON,
             allowNull: false
         },
         from: {
