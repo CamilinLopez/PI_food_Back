@@ -89,9 +89,10 @@ const joinData = async () => {
 const getByIdRecipe = async (idRecipe) => {
     try {
         if (!idRecipe) throw new Error("Agrege un id");
-
+        const idString = idRecipe.toString();
         const dataJoin = await joinData();
-        const data = dataJoin.find(item => parseInt(item.id)  === parseInt(idRecipe));
+        // const data = dataJoin.find(item => parseInt(item.id)  === parseInt(idRecipe));
+        const data = dataJoin.find(item =>item.id.toString()  === idString);
 
          if(data.from === "db") data.analyzedInstructions = JSON.parse(data.analyzedInstructions)
         if (!data) throw new Error("No existe esta receta");
@@ -110,8 +111,7 @@ const getByNameRecipe = async (name) => {
 
         const data = dataJoin.filter(item => item.title.toLowerCase().includes(name.toLowerCase()));
 
-        if (!data.length) return [{ status: "No found", id: 1 }]; //throw new Error(`No hay recetas con el nombre ${name}`);
-
+        if (!data.length) throw new Error(`No hay resultados`);
         return data;
     } catch (error) {
         return { error: error.message };
@@ -136,8 +136,8 @@ const createRecipe = async (title, image, summary, healthScore, analyzedInstruct
 
         await nameR.addDiets(getDiets);
 
-        if (!getDiets.length) throw new Error(`Se ha creado la receta ${title} pero no se ha relacionado por que no se ha encontrado la dieta ${dietas}`)
-        return `La receta ${title} se ha creado en la base de datos food`;
+        if (!getDiets.length) throw new Error(`Se ha creado la receta ${title} pero no se ha relacionado`)
+        return `La receta ${title} se ha creado`;
     } catch (error) {
         return { error: error.message };
     }
@@ -161,6 +161,8 @@ const getDataFilter = async (dataFuete, typeDiet, ordenarByScore) => {
         if (ordenarByScore === "orderAlfabetic") data.sort((a, b) => a.title.localeCompare(b.title));
         if (ordenarByScore === "acendente") data.sort((a, b) => a.healthScore - b.healthScore)
         if (ordenarByScore === "decendente") data.sort((a, b) => b.healthScore - a.healthScore)
+
+        if(!data.length) throw new Error("No hay resultados")
 
         return data;
     } catch (error) {
