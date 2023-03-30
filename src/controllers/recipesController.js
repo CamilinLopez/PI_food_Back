@@ -8,7 +8,7 @@ const { Recetas, diets } = require("../DB");
 
 const getData = async () => {
     try {
-        const data = ((await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=20`)).data).results;
+        const data = ((await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=40`)).data).results;
 
         const resultados = data.map(({ id, title, summary, diets, healthScore, analyzedInstructions, image, vegetarian, vegan }) => {
             return {
